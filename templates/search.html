@@ -1,0 +1,157 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="We filter out fake news from the real.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Fact.err</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="{{ url_for('static', filename='images/android-desktop.png') }}">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Fact.err">
+    <link rel="apple-touch-icon-precomposed" href="{{ url_for('static', filename='images/ios-desktop.png') }}">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='images/touch/ms-touch-icon-144x144-precomposed.png') }}">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+    #view-source {
+      position: fixed;
+      display: block;
+      right: 0;
+      bottom: 0;
+      margin-right: 40px;
+      margin-bottom: 40px;
+      z-index: 900;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+      <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">Custom Search</span>
+          <div class="mdl-layout-spacer"></div>   
+        </div>
+      </header>
+      <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+        <!-- <header class="demo-drawer-header">
+          <img src="{{ url_for('static', filename='images/user.jpg') }}" class="demo-avatar">
+        </header> -->
+        <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
+          <a class="mdl-navigation__link" href="/dashboard"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Dashboard</a>
+          <a class="mdl-navigation__link" href="/news"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>News Feed</a>
+          <a class="mdl-navigation__link" href="/search"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flag</i>Custom Search</a>
+          <div class="mdl-layout-spacer"></div>
+          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+        </nav>
+      </div>
+
+      <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="mdl-grid demo-content">
+          
+          <div class="demo-cards mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
+            <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
+              
+              <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+                  <h2 class="mdl-card__title-text">Enter the news data that you want to classify</h2>
+              </div>
+              <form action="#">
+              <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                  <!-- Title -->
+                  <div class="mdl-textfield mdl-js-textfield" style="width: 600px">
+                    <textarea class="mdl-textfield__input" type="text" rows= "1" id="title" ></textarea>
+                    <label class="mdl-textfield__label" for="title">News Title</label>
+                  </div>     
+                   <!-- Body -->             
+                  <div class="mdl-textfield mdl-js-textfield" style="width: 600px">
+                    <textarea class="mdl-textfield__input" rows= "5" type="text" id="body" ></textarea>
+                    <label class="mdl-textfield__label" for="body">News Body...</label>
+                  </div>                  
+              </div>
+
+              <div class="mdl-card__actions mdl-card--border mdl-grid ">         
+                  <div class="mdl-cell mdl-cell--1-col">
+                  </div>
+                    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-phone">
+                     <a class="btn btn-lg btn-border" id="Submit" type="submit" style="color: #fff">
+                        <i class="material-icons right">send</i>Classify
+                    </a>
+                  </div>
+                  <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                  </div>
+                   <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-phone">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent material-icons col s12 m6 l6" type='Reset' id="clear" value='Reset'>
+                      <i class="material-icons right" style="padding-top: 6px">clear</i>Clear
+                    </button>
+                  </div>
+              </div>
+              </form>
+            </div>
+          </div>
+          <div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-grid mdl-grid--no-spacing">
+            <div class="row" id="addcard">
+          </div>
+          </div>
+        </div>
+      </main>
+     
+    </div>
+
+      
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+    <script src="/static/js/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    
+
+    <script type="text/javascript">
+    
+    $("#Submit").click(function(){
+        var messageTxt = $('#body').val();
+        if(messageTxt.length <= 10){
+          $('#addcard').find('div:nth-child(1)').remove();
+          $('#addcard').append('<div class=" mdl-card mdl-shadow--4dp" style="background:#fa4b2a;"><div class="mdl-card__title"> <!-- title --><h4>Please give me more text to analyze!</h4></div></div>');
+        }
+        if (messageTxt.length > 10){
+          $('#addcard').find('div:nth-child(1)').remove();
+          $.post('/classify',{message: messageTxt},function(result){
+            if(result.category == 'Fake'){
+              console.log('news is fake');
+              $('#addcard').append('<div class=" mdl-card mdl-shadow--4dp" style="background:#F44336;"><div class="mdl-card__title"> <!-- title --><h4>Looks like it is fake!</h4></div></div>');
+            }
+            else if(result.category == 'Real'){
+              console.log('news is real');
+              $('#addcard').append('<div class=" mdl-card mdl-shadow--4dp" style="background:#4CAF50;"><div class="mdl-card__title"> <!-- title --><h4>Seems like a real news.</h4></div></div>');
+            }
+        });
+      }
+    });
+
+
+    $('#clear').click(function(){
+      $('#addcard').find('div:nth-child(1)').remove();
+      // $('#textarea1').val("").trigger('autoresize');
+    });
+    </script>
+
+    
+
+  </body>
+</html>
